@@ -1,0 +1,12 @@
+[package]
+name = "prototype"
+version = "0.0.0"
+description = "Rust Framework Generator"
+authors = ["you"]
+license = ""
+repository = ""
+edition = "2021"
+
+[dependencies]
+clap = "3.0"
+dialoguer = "0.9"
