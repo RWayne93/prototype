@@ -4,7 +4,9 @@ use std::fs;
 use std::env;
 use std::path::PathBuf;
 
-const ROCKET_TEMPLATE: &str = include_str!("../templates/frameworks/rocket.rs");
+
+const ROCKET_TEMPLATE: &str = include_str!("../templates/frameworks/rocket/rocket.rs");
+const CARGO_TEMPLATE: &str = include_str!("../templates/frameworks/rocket/Cargo.toml");
 
 fn get_absolute_path(relative_path: &str) -> PathBuf {
     let mut dir = env::current_dir().expect("Failed to get current directory");
@@ -22,7 +24,7 @@ pub fn generate_rocket_file(project_name: &str) -> std::io::Result<()> {
 
 fn generate_cargo_toml(project_name: &str) -> std::io::Result<()> {
     let project_dir = get_absolute_path(project_name);
-    let mut cargo_template = include_str!("../templates/Cargo.toml").to_string();
+    let mut cargo_template = CARGO_TEMPLATE.to_string();
 
     cargo_template = cargo_template.replace("name = \"\"", &format!("name = \"{}\"", project_name));
 
