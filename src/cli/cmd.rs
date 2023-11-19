@@ -24,6 +24,7 @@ pub fn run() {
     let framework = match framework.to_lowercase().as_str() {
         "rocket" => Framework::Rocket,
         "axum" => Framework::Axum,
+        "actix" => Framework::Actix,
         _ => {
             eprintln!("Framework '{}' is not supported", framework);
             return;

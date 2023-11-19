@@ -15,7 +15,7 @@ fn get_absolute_path(relative_path: &str) -> PathBuf {
 
 pub enum Framework {
     Rocket,
-  //  Actix,
+    Actix,
     Axum,
 }
 
@@ -23,7 +23,7 @@ impl Framework {
     fn get_template(&self) -> String {
         match self {
             Framework::Rocket => ROCKET_TEMPLATE.to_string(),
-         //   Framework::Actix => include_str!("../templates/frameworks/actix/actix.rs").to_string(),
+            Framework::Actix => include_str!("../templates/frameworks/actix/actix.rs").to_string(),
             Framework::Axum => AXUM_TEMPLATE.to_string(),
         }
     }
@@ -31,7 +31,7 @@ impl Framework {
     fn get_cargo_template(&self) -> String {
         match self {
             Framework::Rocket => ROCKET_CARGO_TEMPLATE.to_string(),
-         //   Framework::Actix => include_str!("../templates/frameworks/actix/Cargo.toml").to_string(),
+            Framework::Actix => include_str!("../templates/frameworks/actix/Cargo.toml").to_string(),
             Framework::Axum => AXUM_CARGO_TEMPLATE.to_string(),
         }
     }

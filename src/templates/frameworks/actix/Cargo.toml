@@ -1,0 +1,11 @@
+[package]
+name = ""
+version = "1.0.0"
+description = ""
+authors = ["you"]
+license = ""
+repository = ""
+edition = "2021"
+
+[dependencies]
+actix-web = "4"
