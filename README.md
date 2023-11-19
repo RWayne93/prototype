@@ -15,6 +15,7 @@ Prototype is a CLI tool that allows users to spin up a rust project and project 
 ### Frameworks Supported
 
 - [Rocket](https://github.com/SergioBenitez/Rocket)
+- [Axum](https://github.com/tokio-rs/axum)
 
 
 ### License
