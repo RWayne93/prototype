@@ -31,10 +31,7 @@ pub fn run() {
         }
     };
 
-    if let Err(e) = framework.generate_main_rs(&project_name) {
-        eprintln!("Failed to generate main.rs file: {}", e);
-    }
-    if let Err(e) = framework.generate_cargo_toml(&project_name) {
-        eprintln!("Failed to generate Cargo.toml file: {}", e);
+    if let Err(e) = framework.generate_files(&project_name) {
+        eprintln!("Failed to generate project files: {}", e);
     }
 }
