@@ -16,6 +16,18 @@ pub fn print_ascii_art() {
     println!("{}", ascii_art);
 }
 
+pub fn get_example() -> String {
+    let examples = ["chat", "hello"];
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Choose an example")
+        .default(0)
+        .items(&examples)
+        .interact()
+        .unwrap();
+
+    examples[selection].to_string()
+}
+
 pub fn get_project_name() -> String {
     dialoguer::Input::with_theme(&ColorfulTheme::default())
         .with_prompt("Project name")
@@ -24,7 +36,7 @@ pub fn get_project_name() -> String {
 }
 
 pub fn get_framework() -> String {
-    let frameworks = ["Rocket", "Actix", "Axum"];
+    let frameworks = ["Rocket", "Actix", "Axum", "Rocket from GitHub"];
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Choose a framework")
         .default(0)

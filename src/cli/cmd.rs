@@ -23,6 +23,17 @@ pub fn run() {
 
     let framework = match framework.to_lowercase().as_str() {
         "rocket" => Framework::Rocket,
+       
+        "rocket from github" => {
+            let framework = Framework::Rocket;
+            let example = tui::get_example();
+            if let Err(e) = framework.clone_from_github(&example) {
+                eprintln!("Failed to clone repository: {}", e);
+                return;
+            }
+            framework
+        }
+        
         "axum" => Framework::Axum,
         "actix" => Framework::Actix,
         _ => {
