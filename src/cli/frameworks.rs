@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 use std::env;
 use std::fs;
+use std::process::Command;
 
 const ROCKET_TEMPLATE: &str = include_str!("../templates/frameworks/rocket/rocket.rs");
 const AXUM_TEMPLATE: &str = include_str!("../templates/frameworks/axum/axum.rs");
@@ -28,6 +29,61 @@ impl Framework {
             Framework::Actix => (ACTIX_TEMPLATE.to_string(), ACTIX_CARGO_TEMPLATE.to_string()),
             Framework::Axum => (AXUM_TEMPLATE.to_string(), AXUM_CARGO_TEMPLATE.to_string()),
         }
+    }
+
+    pub fn clone_from_github(&self, example: &str) -> std::io::Result<()> {
+        let url = match self {
+            Framework::Rocket => "https://github.com/SergioBenitez/Rocket",
+            // Add URLs for other frameworks
+            _ => unimplemented!(),
+        };
+
+        let output = Command::new("git")
+            .arg("clone")
+            .arg("--no-checkout")
+            .arg(url)
+            .arg("Rocket") // Change this to match the framework
+            .output()?;
+
+        if !output.status.success() {
+            return Err(std::io::Error::new(std::io::ErrorKind::Other, "Failed to clone repository"));
+        }
+
+        // Change directory
+        env::set_current_dir("Rocket")?;
+
+        // Init sparse-checkout
+        let output = Command::new("git")
+            .arg("sparse-checkout")
+            .arg("init")
+            .output()?;
+
+        if !output.status.success() {
+            return Err(std::io::Error::new(std::io::ErrorKind::Other, "Failed to init sparse-checkout"));
+        }
+
+        // Set sparse-checkout
+        let output = Command::new("git")
+            .arg("sparse-checkout")
+            .arg("set")
+            .arg(format!("examples/{}", example))
+            .output()?;
+
+        if !output.status.success() {
+            return Err(std::io::Error::new(std::io::ErrorKind::Other, "Failed to set sparse-checkout"));
+        }
+
+        // Checkout master
+        let output = Command::new("git")
+            .arg("checkout")
+            .arg("master")
+            .output()?;
+
+        if !output.status.success() {
+            return Err(std::io::Error::new(std::io::ErrorKind::Other, "Failed to checkout master"));
+        }
+
+        Ok(())
     }
 
     pub fn generate_files(&self, project_name: &str) -> std::io::Result<()> {
