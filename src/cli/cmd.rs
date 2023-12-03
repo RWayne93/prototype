@@ -21,9 +21,10 @@ pub fn run() {
 
     println!("Creating a project named '{}' using the '{}' framework", project_name, framework);
 
+    let mut skip_generate_files = false;
+
     let framework = match framework.to_lowercase().as_str() {
         "rocket" => Framework::Rocket,
-       
         "rocket from github" => {
             let framework = Framework::Rocket;
             let example = tui::get_example();
@@ -31,9 +32,9 @@ pub fn run() {
                 eprintln!("Failed to clone repository: {}", e);
                 return;
             }
+            skip_generate_files = true;
             framework
         }
-        
         "axum" => Framework::Axum,
         "actix" => Framework::Actix,
         _ => {
@@ -42,7 +43,9 @@ pub fn run() {
         }
     };
 
-    if let Err(e) = framework.generate_files(&project_name) {
-        eprintln!("Failed to generate project files: {}", e);
+    if !skip_generate_files {
+        if let Err(e) = framework.generate_files(&project_name) {
+            eprintln!("Failed to generate project files: {}", e);
+        }
     }
 }
